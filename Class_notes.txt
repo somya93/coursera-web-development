@@ -412,4 +412,33 @@ INTRODUCTION TO RESPONSIVE DESIGN
 		...
 		}
 
-		since they are inclusive and then both styles will apply. 
+		since they are inclusive and then both styles will apply.
+
+	**Quick tip: Can check the width of the browser window by opening up Inspect element and then resizing the window. Can see the size in px on top right.
+
+2. Responsive Design: need because too many devices now. 
+	- 12 column grid responsive layout. Since 12 has many evenly spaced factors: 1, 2, 3, 4, 6, 12
+	- Can have nested grids.
+	- Use %ages (wrt browser width) to achieve fluid width instead of absolute px values. 
+	- For mobile phones, a website is by default zoomed out excessively because the mobile's browser isn't sure that the website is resposive. So, in order to tell the mobile device that the html page has taken care of different layouts and styling in a resposive manner, need to add the following meta tag in the head. 
+		<head>
+			<meta name="viewport" content="width=device-width, inital-scale=1">
+		</head>
+
+	eg: <div class="row">
+		<div class="col-lg-3 col-md-6"><p>Item 1</p></div>
+		<div class="col-lg-3 col-md-6"><p>Item 2</p></div>
+		<div class="col-lg-3 col-md-6"><p>Item 3</p></div>
+		<div class="col-lg-3 col-md-6"><p>Item 4</p></div>
+		<div class="col-lg-3 col-md-6"><p>Item 5</p></div>
+		<div class="col-lg-3 col-md-6"><p>Item 6</p></div>
+		<div class="col-lg-3 col-md-6"><p>Item 7</p></div>
+	</div>
+
+	As the screen size reduces, we would want fewer columns on the screen so that the image/text is readable. Hence, here, larger screens will have 4 columns, but as we reduce the screen size, we want only 2 columns on the screen. 
+
+===================================================================================================================================================
+
+INTRODUCTION TO TWITTER BOOTSTRAP
+=================================
+
