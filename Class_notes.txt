@@ -1,0 +1,415 @@
+Notes Week 1:
+- git: clone -> checkout -> mkdir -> add (add to be commited) -> commit (only committed to local repo) -> push (pushed to github)
+-   HTML -> Gives structure -> what's the title, how many paras, etc. 
+	CSS  -> styling and colours
+	Javascript -> behaviour -> what happens after html doc finishes loading. 
+- Meta tags in HTML tags communicate information TO THE BROWSER.
+- HTML block (phrasing content) and inline (flow content) tags:
+	-> <div> -> block tag. Will be on a new line by default. Can include inline tags + block tags
+	-> <span> -> inline tag. Will be on the same line by default. Can only inlcude other inline tags, not block tags
+- HTML character entity references:
+	-> use &lt; for "<"
+		   &gt; for ">"
+		   &amp; for &
+		   &quot; for "" incase the encoding of the page is not UTF-8 and quotes get messed up. 
+		   &nbsp; to include unbreakable spaces between words. eg: victory&nbsp;nor&nbsp;defeat. "victory nor defeat" will now be treated as one chunk of words. When resizing the page, they will not be word-wrapped. 
+- <a href = "...." target = "_blank" title = "Some title" </a>
+	-> target = "_blank" opens the link in a new page. 
+	-> Should have a title as it helps the visually impaired people. 
+- Fragment identifier: gets included in the url as well. 
+	<a href = "#section2">#section2</a> ---> link to section within the same page
+	...
+	<section id = "section2">
+	....
+	....
+	</section>
+
+	ooorrrr
+	can define section like this too:
+	<div> 
+	<a name = "section2"> Section 2 </a>
+	</div>
+
+	-> Can also use this to go back to the top of the same page from the section.  
+
+	Notes:
+	1. Can simulate low network speed to see how pages would load with slow internet. 
+		-> Open that Chrome Dev settings page -> Network -> Change from No Throttling to GPRS (50kb/s)
+
+
+==========================================================================================================================================================
+==========================================================================================================================================================
+
+															*****	 Week 2 - CSS	*****
+
+CSS Basics
+==========
+<html>
+	<head>
+		<title> ... </title>
+		<style> ... </style>
+	</head>
+	<body>
+		...
+	</body>
+</html>
+
+- Element Selector: 
+	eg: p {
+			color : blue;
+		} 
+		==> every paragraph in the html doc will be blue. 
+
+- Class selector: 
+	eg: .blue {
+			color : blue;
+		}
+
+		and then we can apply this class to any element. 
+		<p class = "blue"> ... </p>
+		<div class = "blue"> ... </div>
+
+- id selector: very specifc
+
+	eg: #name {
+			color : blue;
+		}
+
+		this is the id of some specific element
+
+		<p> ... </p>
+		<div id = "name"> ... </div>
+
+- Can group selectors too! Wow!
+	eg: div, .blue {
+			color : blue;
+		}	
+
+		<p class = "blue"> ... </p> 
+		<p> ... </p>
+		<div> ... </div> 
+
+- Element with Class Selector
+	eg: p.big {
+			font=size : 20px;
+		}
+
+		Only <p>s with class big with have this style. 
+		<p class = "big"> ... </p>
+		<div class = "big"> ... </div>
+		<p> ... </p>							---> this guy won't have the styling. 
+
+
+- Child selector
+	eg: article > p {
+			color : blue;
+		}
+
+		<p> that is a DIRECT child of <article> will have this styling. 
+		If <p> is contained in <div> that is contained in <article> i.e. <p> is the grandchild of <article>, then styling is not applied to <p>
+
+		<article>...
+			<p>...</p>			--> yes styling
+		</article>
+		...
+		<p>...</p>             	--> won't have styling
+		<article>
+			<div>
+				<p>...</p>     	--> won't have styling
+				...
+			</div>
+		</article>
+
+
+- Descendent selector 
+	eg: article p {
+			color : blue;
+		}
+
+		Every <p> that is inside (at any level) of <article> 
+
+- eg: 	.colored p {
+			color : blue;
+		}
+
+		Every <p> that is inside any element with class = "colored"
+
+
+- eg: 	article > .colored {
+			color : blue;
+		}
+
+		Every element with class = "colored" that is a direct child of <article> 
+
+- Can apply multiple classes to an element:
+	eg.: <div class = "mainpoint highlight"> ... </div>
+
+
+- Pseudo-class selectors: In case regular selectors can't be used, or if we want to style based on user interaction, eg. when a user hovers over something. 
+	-> Usage: selector:pseudo-class{
+					...
+				}
+
+		eg: a:link, a:visited {
+
+			}
+
+			a:link --> an unclicked link. 
+			a:visited --> a link that has been clicked on
+			We can have different stylings for both
+
+			a:hover, a:active {
+
+			}
+
+			a:hover --> user is hovering over the element
+			a:active --> user has clicked on the element, but hasn't released the mouse yet. 
+
+
+		nth-child selector helped us to target a particular item in a list (doesn't necessarily need to be a list) and stlye for it. 
+		eg: header li:nth-child(3) {
+
+			}	
+
+			section div:nth-child(odd) {					---> all the odd divs under section 
+
+			}
+
+			section div:nth-child(4):hover {
+
+			}
+
+
+- Star selector:
+	eg: * {
+			box-sizing: border-box;
+		}
+
+		This applies the styling to every element in the html. 
+
+
+
+=========================================================================================================================================================
+
+CSS Rules Conflict Resolution and Text Styling
+==============================================
+
+
+- Inline styling: use for quick testing
+	eg: <p style="text-align:center; color:blue; ..."> ... </p>
+
+- External stylesheets: if you have a website with multiple html pages and want the same styling for all. 
+	<html>
+		<head> 
+			<title> ... </title>
+			<link rel="stylesheet" href="style.css">
+		<head>
+	</html>
+
+
+- Conflict resolution:
+	1. Origin precedence: (when in conflict) -> Last declaration wins
+						  (when no conflict) -> merge
+
+
+	2. Inheritance: every child inherits the properties which can be overwritten later. 
+
+	3. Specificity: Most specific selector combination wins. How to calculate the specificity score? 
+			<p style="...">   >>   id selector   >>   class, pseudo-class, attribute   >>   # of elements 
+
+			eg: div #myPara {		---> 0101					
+					color: blue;
+				}
+
+			eg: div.big p {         ---> 0012
+					color:blue;
+				}
+
+			Since, 0101 > 0012, the first selector will be selected. 
+
+
+			However, if we include !important in any selector, then it will override evvvvvvery rule and use that style. 
+
+			eg: header.navigation p {
+					color: blue;
+				}
+
+				p.blurb {
+					color: red;
+				}
+
+				p {
+					color: green !important;
+				}
+
+				All p's will have color green. 
+
+
+
+- Styling Text:
+	.style{
+		font-family: Arial, Helvetica, sans-serif;    	---> If browser doesn't have Arial, then font will be Helvetica. Default is Serif/Sans-serif
+		color: #0000ff;									---> hexadecimal rgb value
+		font-style: italic				
+		font-weight: 100/400/900/bold 					---> numeric values or bold (==900)
+		font-size: 24px;								---> default font size is 16px
+		text-transform: uppercase/capitalise;
+		text-align: center, left;
+	}
+
+
+	- Sans-serif doesn't have the extra lines on the T (eg. Arial), Serif has embellishments on T (eg. Times New Roman)
+	- Pixel -> absolute unit of measurement of size for display. DPI (Dots Per Inch) devices -> 1 pixel = 1 device pixel dot on the display. Higher DPI means sharper images, since more dots (pixels) per inch. 
+	- Relative font size -> Can use % or em for relative font size. 2em == 200%, .5em == 50%
+
+=====================================================================================================================================
+
+The Box Model and Layout
+=========================
+
+- The Box Model:
+	Margin
+	----------------------
+	Border 
+	----------------
+    | Padding
+	|  -----------
+	|  |	Content |
+	|  -----------
+	------------------
+
+	1. Browsers by default add a margin of 8px to <body>. This can be overwritten. 
+			eg:. #style{
+					background-color: blue;
+					padding: 10px 10px 10px 10px;
+					border: 5px solid black;
+					margin: 40px;
+					width: 300px;     ---> This is the content's width, without padding and border pxs. Hence, here the actual box's width = 300 + 2 (10 + 5) = 330pxs
+				}
+
+				To fix this, change box-sizing to border-box. Then box's width = 300 and content's width will be readjusted to 270px. Border-box is most widely used even in Bootstrap. 
+
+				To avoid changing the box-sizing for evvvvvery element, just use * selector to apply it to every element in the html. Can't use in body style, because box-sizing doesn't get inherited. So even if body has border-box, the div's and the section's may still have content-box. 
+
+	2. Cumulative and Collapsing Margins: 
+				margin-top and margin-bottom between two box layouts, will select the greater margin. -> Collapsing margins 
+				But if the boxes are beside each other, the margins get added up. -> Cumulative margins
+				eg. h1 {
+						margin-bottom : 30px;
+					}
+					#border {
+						margin-top : 50px;
+					}
+
+					The final margin between the two elements would be 50px (and not 80 pxs).
+
+
+	3. Content overflow:
+			If there is an overflow in the content compared to the box around it (assuming you've fixed the box's width and height to be smaller than the content), then we can choose to either make the overflow visible (default) -> in this case, if there is any content below it, the two contents might merge together, or to hide it (which clips it), or to add scroll bars there. 
+
+
+- Background properties:
+	eg: #bg {
+			background-color: blue;
+			background-image: url("image.png");
+			background-repeat: no-repeat;
+			background-position: bottom right;
+		}
+
+		or
+		#bg {
+			background: url("image.png") bottom right blue
+		}
+
+- Floating elements - VERY IMPORTANT!
+		- Floating an element takes it out of the document flow. 
+		- Can float things to the left or the right.
+		- If you don't want any floating element to the right of an element, then add clear: right in the styling. 
+		- If you don't want any floating elements to both sides of an element, then add clear: both. 
+		- Margins do not collapse for floating elements (like they do normally between 2 <p>s where it takes the greater margin instead of adding the two margins.)
+
+
+		eg: Two Column Design
+			<!doctype html>
+			<html>
+			<head>
+				<meta charset="utf-8">
+				<title>Two Column Design</title>
+				<style type="text/css" media="screen">
+					*{
+						box-sizing: border-box;
+					}
+					p{
+						width: 50%;
+						border: 1px;
+						float: left;
+						padding: 10px;
+					}	
+					section{
+						background-color: blue;
+						/*clear: right;*/
+					}
+				</style>
+			</head>
+			<body>
+				<h1>Two Column Design</h1>
+				<div> 
+					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </p>
+					<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+					<section>Test test test</section>
+				</div>
+			</body>
+			</html>
+
+- Relative and Absolute Element Positioning
+	1. Static positioning -> normal document flow. This is the default setting for all elements, except for <html>.
+						  -> If an element's position is static, then even if we add offsets to its position (eg. left: 50px), it ignores the offsets.
+	2. Relative positioning -> If I change the element's position to "relative", and then add left:50px;, then the element changes position. 
+							eg.: left: 50px really means move _from_ left by 50px. Hence, the element moves right by 50px. 
+							-> These offsets are from the original position of the element in the document.  
+							-> Important: The document flow is not broken in this case. Browser still thinks that the element is in its original position, hence all other elements retain thwir positions.  
+
+							eg: p{
+									position: relative;
+									bottom: -50px;						equivalent to: top: 50px;
+									right: -50px;									   left: 50px;
+								}
+
+	3. Absolute positioning -> All offsets (top, bottom, left, right) are relative to the position of the nearest ancestor which has positioning set on it, other than static. 
+							-> Unlike Relative positioning, the element is taken out of the document flow. So if I change an element's position to absolute, without adding any offsets to it, the element will stay in place, but out of the document flow, so everything else below it will move up like that element is not even present. 
+							-> Advantage: If the container element is itself an offset, and it contains other elements inside it that are offsets, if you want to move the container element around, you don't need to move every other element inside it around. They'll move like a group together. 
+
+==============================================================================================================================================================
+
+INTRODUCTION TO RESPONSIVE DESIGN
+=================================
+
+1. Media Queries:
+	- Different CSS styles for different devices, need to include @media in the styling. 
+	- If logical stmt within @media(...) is true, then the style applies.
+
+	eg:
+	p{															//base styles - apply irrespective of the media
+		color: blue;
+	}
+
+	@media (min-width: 768px) and (max-width: 991px){			//AND
+			div{
+				color: blue;
+			}
+		}
+	@media (max-width: 767px) , (min-width: 992px){              //OR
+			div{
+				color: blue;
+			}
+		}
+
+		NOTE: Do not overlap the boundaries. eg. Can't have something like:
+		@media (min-width: 1200px){
+		...
+		}
+		@media (min-width: 992px) and (max-width: 1200px) {
+		...
+		}
+
+		since they are inclusive and then both styles will apply. 
