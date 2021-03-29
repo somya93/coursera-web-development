@@ -1,0 +1,36 @@
+body{
+	background-color: #61122f;
+	font-family: 'Oxygen', serif;
+	color: white;
+}
+
+.navbar {
+	background-color: #f6b319;
+}
+
+.navbar-brand{
+	padding-left: 12px;
+}
+
+.navbar-nav{
+	background-color: #557c3e;
+}
+
+.navbar-nav li{
+	border-bottom: 1px solid black;
+}
+
+.navbar-nav li:last-child{
+	border-bottom: none;
+}
+
+#menu_title{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.really_tall_section{
+	height: 2000px;
+	background-color: #557c3e;
+	padding: 12px;
+	margin-bottom: 12px;
+}
