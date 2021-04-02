@@ -13,7 +13,7 @@ body{
 }
 
 .navbar-nav{
-	background-color: #557c3e;
+	background-color: #;
 }
 
 .navbar-nav li{
@@ -24,13 +24,33 @@ body{
 	border-bottom: none;
 }
 
-#menu_title{
+#menu-title{
 	margin-top: 15px;
 	margin-bottom: 15px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 .really_tall_section{
 	height: 2000px;
 	background-color: #557c3e;
 	padding: 12px;
 	margin-bottom: 12px;
+}
+
+#main-content section{
+}
+
+#main-content section > div{
+	background-color: #557c3e;
+	padding: 12px;
+	margin-bottom: 12px;
+}
+
+#main-content a{
+	scroll-behavior: unset;
+	color: #000066;
+}
+
+#nav-list a:hover{
+	background-color: #ffd11a;
 }

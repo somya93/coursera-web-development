@@ -261,6 +261,7 @@ CSS Rules Conflict Resolution and Text Styling
 	- Sans-serif doesn't have the extra lines on the T (eg. Arial), Serif has embellishments on T (eg. Times New Roman)
 	- Pixel -> absolute unit of measurement of size for display. DPI (Dots Per Inch) devices -> 1 pixel = 1 device pixel dot on the display. Higher DPI means sharper images, since more dots (pixels) per inch. 
 	- Relative font size -> Can use % or em for relative font size. 2em == 200%, .5em == 50%
+						 -> Can also use vw (viewport) for relative fontsize. 1vw = 1% of the viewport width. Hence, the font will change as the width of the browser changes. 
 
 =====================================================================================================================================
 
@@ -442,3 +443,192 @@ INTRODUCTION TO RESPONSIVE DESIGN
 INTRODUCTION TO TWITTER BOOTSTRAP
 =================================
 
+As per Bootstrap:
+xl: >=1200px	:: large desktops
+lg: >=992px		:: desktops
+md: >=768px		:: tablets
+sm: >=576px		:: landscape phones
+xs: <576px		:: portrait phones 
+
+
+
+===================================================================================================================================================
+
+WEEK 3
+
+Things to ask the client:
+1. Bring examples of other sites to help the client figure out what they want. 
+2. Use less informtion on the site. Less is more. 
+3. Have the client invest in the project to at least some extent. Get them to pay for the photography or sommmmmething. Else they won't show much interest in the output. 
+4. Have one point of contact only. 
+5. If you're doing this for free, limit the number of revisions. If you're doing this for a pay, limit number of free revisions. Every subsequent revision will come at a cost. 
+
+
+
+Starting the coding of the website:
+
+1. Can get font from Google fonts. Add that as a <link> to the index.html
+2. Use broswer sync: browser-sync start --server --directory --files "**/*"
+3. header
+	nav -> navbar navbar-default
+	container
+		navbar-header
+		logo-> vertical-md
+
+4. In Bootstrap framework, class pull-left is used to float left.
+
+=====================================================================================================================================================
+
+WEEK 4
+
+JAVASCRIPT:
+1. Javascript engine inside a browser is a single-threaded engine => Code executing will be completely executed without interruption from some our Javascript code. 
+2. Sequential flow of execution. 
+3. <script> can be added anywhere in the html, either in <head> or even inside <body> 
+4. Functional language, like C#:
+	- var x = "this is a string";
+		x can be made an int later too. 
+	- how to define a function:
+		function a(){
+		...
+		}
+		eg: function compare (x, y) 	---> don't need to specify types of x and y
+			var a = compare(4, 5);		---> a will store the result of compare(4, 5)
+			compare (4, "a")			---> since types of arguments not given, this is allowed
+			compare()					---> in Javascript, all arguments to a function are optional. Hence, this is allowed. 
+	- can define functions inside another function. 
+5. Scope:
+	1. Global scope: variables and functions defined here are available everywhere.
+	2. Functional/Lexical scope: variables and functions here are available only here. 
+
+	- Referenced (not defined) variable will be searched for in its current scope first. If not found, the outer reference will be searched, if not found then outer reference's out reference will be searched, until it is searched for in the global scope. If not found in the global scope either, the variable will be declared undefined. 
+	eg: Global:
+		var x = 2;
+		A();
+
+		Function A:
+		var x = 5;
+		B():
+
+		Function B:
+		console.log(x);
+
+		Output -> Even though B is called within A, B is defined in the Global scope. Hence, outer reference of B is global, not A. Hence, x=2 is outputted.
+
+		Doesn't matter where a function is invoked from, what matters is where the function is physically defined.
+
+6. DataTypes:
+		- 7 built-in types. 1 Object and 6 Primitive. 
+		- Object is a collection of name value pairs. 
+		- Primitive: single, immutable value. 
+				   : Boolean
+				   : Undefined (reserved keyword) -> variable has been declared but has not been defined yet. 
+				   : null -> lack of value (undefined is lack of defination)
+				   : Number -> double precision 64-bit floating point. Javascript does not have Integer type
+				   : String
+				   : Symbol 
+
+		NaN -> Not a Number 
+			eg: console.log((undefined)/3);			-> o/p: NaN
+
+7. Type coercion: eg: var x = '4';
+					  var y = 4;
+					  if (x == y){
+					  	console.log("Equal");
+					  }								--> outputs Equal. 
+
+				Javascript implicitly converts the type of x from string to number to do the comparison. If you want to avoid that, do strict comparison:
+				eg: if (x === y){
+						console.log("Equal");
+					}
+
+
+				eg: null, undefined, "", 0, NaN -> All get coerced to false. 
+				Hence, false || null || undefined || "" || 0 || NaN  				---> evaluates to false
+
+
+				eg: Following is the way to set default values to a variable:
+					function orderChickenWith (sideDish) {
+						sideDish = sideDish || "something";						//if sideDish is undefined, it'll be coerced to false. 
+						console.log("Chicken with " + sideDish);
+					}
+
+					orderChickenWith("noodles");								---> returns Chicken with noodles
+					orderChickenWith();											---> returns Chicken with something
+
+
+
+8. Curly braces need to be on the same line (whaaaaaa! whoever enforces such a thing!)
+		eg: function a()
+			{
+				return 
+				{
+					name: "Mittal"
+				};
+			}
+
+			a(); 										---> This will return undefined! Javascript implicitly adds a semicolon after return because it 														doesn't encounter anything else on that line. Wow.
+
+			Right way to write the function:
+				function a(){
+					return {
+						name: "Mittal"
+					};
+				}
+
+9. Creating objects:
+	eg: var company = new Object();
+		company.name = "Facebook";								---> This implicitly creates the "name" property for the company object.
+		company.ceo = new Object();
+		company.ceo.firstname = "Mark";
+		company.["stock of company"] = 110;
+
+		//getters
+		console.log(company.ceo.firstname);
+		console.log(company["name"]);
+		console.log(company.["stock of company"]);
+
+
+	Can also create objects like (object literal):
+	eg: var company = {
+			name:"facebook",
+			ceo: {
+				firstName: "Mark",
+				"stock of company": 110							---> if spaces, then add double quotes.
+			},
+		};
+
+10: Functions:
+	- Functions are also first-class data types. Therefore, whatever you can do to datatypes, you can do to functions. Functions are Objects. 
+	- Can set properties to functions. 
+
+	eg:
+		function multiply(x, y){
+			return x * y;
+		}
+
+		multiply.version = "v.1.0.0";				// since functions are objects, we can set properties to them. 
+		console.log(multiply);						// implicity calls multiply.toString() which returns the whole defn of the function.
+		console.log(multiply.version);				// will return v.1.0.0
+
+
+		//Function factory - functions can be passed around in arguments, can be returned, etc. 
+		function makeMultiplier(multiplier){
+			var myFunc = function (x){
+				return multiplier * x;
+			};
+			return myFunc;							// returning myFunc function.
+		}
+
+		var multiplyBy3 = makeMultiplier(3);
+		console.log(multiplyBy3(10));				// will return 30;
+		var doubleAll = makeMultiplier(2);
+		console.log(doubleAll(100));
+
+		//Can pass functions as arguments too
+		function doOperation(i, operation){
+			return operation(i);
+		}
+
+		var result = doOperation(20, multiplyBy3);
+		console.log(result);						
