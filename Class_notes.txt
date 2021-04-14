@@ -626,9 +626,164 @@ JAVASCRIPT:
 		console.log(doubleAll(100));
 
 		//Can pass functions as arguments too
-		function doOperation(i, operation){
-			return operation(i);
+		function doOperation(x, operation){
+			return operation(x);
 		}
 
 		var result = doOperation(20, multiplyBy3);
 		console.log(result);						
+
+11. Pass by Value bs Pass by Reference:
+		- Pass by Value: for primitives like 'var'. 
+			eg:	var a = 7;
+				var b = a;					//contents of a are copied to contents of b, so now b h0olds 7
+				b = 5;						//contents of b are overwritten to 5. But a still holds 7. So a and b are independent. 
+
+
+		- Pass by reference: for Objects types.
+			eg: var a = {x: 7};				//a holds the memory location of the object
+				var b = a;					//contents of a are copied to b, hence now b also points to the same object as a
+				b.x = 5;					//this would affect the value pointed by a and b, both. This is pass by reference. 
+
+
+12. Creating static variables in the function...:
+
+	eg: function Circle(radius){
+			this.radius = radius;
+		}
+
+		Circle.prototype.getArea = function () {
+			return Math.PI * Math.pow(this.radius, 2);			// 'this' contains the Windows object
+		}
+
+		var myCircle = new Circle(10);
+		console.log(myCircle.getArea());
+
+		var myOtherCircle = new Circle(20);
+		console.log(myOtherCircle);								// will have the getArea property in its prototype. Set only once. 
+
+
+13. Arrays: can have varied types
+		  : dynamic. don't need to set length at the time of declaration.
+	eg: var array = new Array();
+		array[0] = "Yaakov";
+		array[1] = 2;
+		array[2] = function (name){
+			console.log("Hello " + name);
+		};
+		array[3] = {
+			course: "HTML",
+			location: "Bangalore"
+		}
+
+		console.log(array);
+		array[2](array[0]);
+
+
+		//Short hand notation for array declaration:
+		var array2 = []; //empty array;
+		var names = ["Yaakov", "John", "Joe"];
+
+		//Since dynamic, can set some other index also after declaration
+		names[100] = "Jim";
+
+		for(var i = 0; i < names.length; i++){
+			console.log("Hello " + names[i]);					//This is output the first 2, then say Hello undefined (97 times), then Hello Jim. Cray.
+		}
+
+
+
+		//can display the name value pairs of the object like:
+		var myObj = {
+			name: "Yaakov",
+			course: "HTML/CSS/JS",
+			platform: "Coursera"
+		};
+
+		for (var prop in myObj){
+			console.log(prop + ": " + myObj[prop]);
+		}
+
+
+		Buuuuttt.... say I have:
+		var names = ["Yaakov", "John", "Joe"];
+		names.greeting = "Hi!";									//since arrays are also objects
+
+		for (var name in names){
+			console.log("Hello " + names[name]);				//will output: Hello Yaakov
+																			   Hello John
+																			   Hello Joe
+																			   Hello Hi!
+		}
+
+
+
+IIFEs:
+window object?
+
+
+
+======================================================================================================================================================
+
+WEEK 5
+
+1. DOM Manipulation: Document Object Manipulation
+		- There is a window object that exists in the global scope by default. 
+		- document is a property of the "window" object, that holds the entire HTML page. 
+		- Can get elements in the HTML through their ids, with the help of this document property. 
+		eg: <body>
+				<h1 id="title"> Cuisines </h1>
+			</body>
+
+			can have the following in the script -> document.getElementById();
+			This will return the title element. 
+
+		- Can set HTML elements also:
+		eg: function sayHello(){
+				var name = document.getElementById("name").value;				//the value inputted in the text box
+				var message = "<h2> Hello " + name + "!</h2>";					// to display on the screen
+
+				document.getElementById("content").textContent = message;		//There is a div with id content. Its value will be set to the message, but 																	won't be formatted correctly, i.e. <h2> will also be displayed.
+
+				document.getElementById("content").innerHTML = message;			//This will format the message as expected.
+
+
+				//Can also get an element using the CSS selectors
+				var title = document.querySelector("#title");
+			}
+
+2. Event Handlers: Functions that you bind using specifc methods to certain events that happen in the browser. 
+		eg: onClick(), onBlur(), page loading etc. 
+		- Want to keep HTML page only for content, not to define behaviour. Hence, move it to the script.js files. 
+			Hence, instead of:
+			<button onclick="sayHello();"> Say it! </button> 
+			can insert Unobstrusive Event Handling in the js file:
+			document.querySelector("button").addEventListener("click", sayHello);
+
+			Now, the sayHello function's context changes from global context (this = window object) to event's context (this = button element)
+
+			Can also do:
+			document.querySelector("button").onclick = sayHello;				//selecting the HTML element, and setting its onclick property to the 
+																				// function sayHello. We're not executing it, we're setting the value of the
+																				// function. 
+
+
+			Instead of loading the js files at the end of the html doc, we can add an event listener to listen when all the HTML content gets loaded (before the images and other CSS content is loaded), and create the new event listeners then itself. 
+
+			document.addEventListener("DOMContentLoaded", function(event){
+				function sayHello (event){
+					...
+					...
+					
+				}
+				document.querySelector("button").addEventListener("click", sayHello);
+			});	
+
+		- "event" argument has a number of properties like "shiftKey", "clientX", "clientY" etc. which can be used in the js file to add specific behaviour.
+		eg: //Want to log the x and y data points of the mouse only when shift key is pressed in the <body> section of the html.
+			document.querySelector("body").addEventListener("mousemove", function (event){
+				if (event.shiftKey === "true"){
+					console.log("x: " + event.clientX);
+					console.log("y: " + event.clientY);
+				}
+			});
